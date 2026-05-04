@@ -560,6 +560,7 @@
             margin-bottom: 0.5rem;
             font-size: 0.85rem;
             transition: color 0.2s;
+            cursor: pointer;
         }
 
         .footer-col a:hover {
@@ -574,8 +575,8 @@
             font-size: 0.75rem;
         }
 
-        /* Data Privacy Modal */
-        .privacy-modal-overlay {
+        /* Legal Modals (Data Privacy & Terms of Service) */
+        .legal-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -589,7 +590,7 @@
             justify-content: center;
         }
 
-        .privacy-modal {
+        .legal-modal {
             background: white;
             border-radius: 32px;
             width: 90%;
@@ -597,23 +598,43 @@
             padding: 2rem;
             animation: fadeSlideUp 0.3s ease-out;
             box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
-        .privacy-modal h3 {
+        .legal-modal h3 {
             font-size: 1.6rem;
             font-weight: 800;
             margin-bottom: 1rem;
             color: #0f172a;
         }
 
-        .privacy-modal p {
+        .legal-modal h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 1rem 0 0.5rem;
+            color: #1e293b;
+        }
+
+        .legal-modal p {
             color: #334155;
             line-height: 1.6;
             margin-bottom: 1rem;
             font-size: 0.95rem;
         }
 
-        .privacy-modal .close-privacy {
+        .legal-modal ul {
+            color: #334155;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .legal-modal li {
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-modal .close-legal {
             background: linear-gradient(135deg, #4f46e5, #6366f1);
             color: white;
             border: none;
@@ -764,7 +785,7 @@
     <button class="btn-cta" id="ctaLoginBtn">Sign In to Dashboard →</button>
 </div>
 
-<!-- Footer with Data Privacy Link -->
+<!-- Footer with Legal Links -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-col">
@@ -784,8 +805,8 @@
         </div>
         <div class="footer-col">
             <h4>Legal</h4>
-            <a href="#" id="dataPrivacyLink">Data Privacy</a>
-            <a href="#">Terms of Service</a>
+            <a id="dataPrivacyLink">Data Privacy</a>
+            <a id="termsOfServiceLink">Terms of Service</a>
         </div>
     </div>
     <div class="copyright">
@@ -794,14 +815,50 @@
 </footer>
 
 <!-- Data Privacy Modal -->
-<div id="privacyModal" class="privacy-modal-overlay">
-    <div class="privacy-modal">
+<div id="privacyModal" class="legal-modal-overlay">
+    <div class="legal-modal">
         <h3>Data Privacy & Security</h3>
         <p>Attendify is committed to protecting your data. All attendance records, user credentials, and analytics are encrypted using AES-256. We never share personal information with third parties without explicit consent.</p>
-        <p><strong>Information collected:</strong> Email addresses, attendance timestamps, role-based permissions, and aggregated usage analytics.</p>
-        <p><strong>Your rights:</strong> Access, modify, or request deletion of your data at any time via admin panel. Audit logs are retained for 12 months unless configured otherwise.</p>
+        <h4>Information Collected</h4>
+        <p>Email addresses, attendance timestamps, role-based permissions, device information, and aggregated usage analytics.</p>
+        <h4>Data Usage</h4>
+        <p>We use your data solely for attendance tracking, report generation, and improving our services. No data is sold to third parties.</p>
+        <h4>Your Rights</h4>
+        <p>Access, modify, or request deletion of your data at any time via admin panel. Audit logs are retained for 12 months unless configured otherwise.</p>
         <p>For full policy, contact our Data Protection Officer at <a href="mailto:privacy@attendify.com" style="color:#4f46e5;">privacy@attendify.com</a>.</p>
-        <button class="close-privacy" id="closePrivacyBtn">Got it</button>
+        <button class="close-legal" id="closePrivacyBtn">Got it</button>
+    </div>
+</div>
+
+<!-- Terms of Service Modal -->
+<div id="termsModal" class="legal-modal-overlay">
+    <div class="legal-modal">
+        <h3>Terms of Service</h3>
+        <p>By using Attendify, you agree to these terms. Please read them carefully.</p>
+        
+        <h4>1. Account Registration</h4>
+        <p>You must provide accurate information when creating an account. You are responsible for maintaining the security of your account credentials.</p>
+        
+        <h4>2. Acceptable Use</h4>
+        <p>You agree to use Attendify only for lawful purposes. You may not use the service to track attendance fraudulently, impersonate others, or violate any applicable laws.</p>
+        
+        <h4>3. Data Ownership</h4>
+        <p>You retain all ownership rights to the attendance data you collect. Attendify does not claim ownership over your data.</p>
+        
+        <h4>4. Service Availability</h4>
+        <p>We strive to maintain 99.9% uptime but do not guarantee uninterrupted service. We may perform scheduled maintenance with prior notice.</p>
+        
+        <h4>5. Termination</h4>
+        <p>We reserve the right to suspend or terminate accounts that violate these terms. You may delete your account at any time.</p>
+        
+        <h4>6. Limitation of Liability</h4>
+        <p>Attendify is not liable for any indirect, incidental, or consequential damages arising from your use of the service.</p>
+        
+        <h4>7. Changes to Terms</h4>
+        <p>We may update these terms from time to time. Continued use of the service constitutes acceptance of the updated terms.</p>
+        
+        <p>For questions about these terms, contact us at <a href="mailto:legal@attendify.com" style="color:#4f46e5;">legal@attendify.com</a>.</p>
+        <button class="close-legal" id="closeTermsBtn">I Agree</button>
     </div>
 </div>
 
@@ -845,10 +902,13 @@
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
 
-    // Data Privacy Modal Elements
+    // Legal Modals
     const privacyModal = document.getElementById('privacyModal');
+    const termsModal = document.getElementById('termsModal');
     const dataPrivacyLink = document.getElementById('dataPrivacyLink');
+    const termsOfServiceLink = document.getElementById('termsOfServiceLink');
     const closePrivacyBtn = document.getElementById('closePrivacyBtn');
+    const closeTermsBtn = document.getElementById('closeTermsBtn');
 
     // Open privacy modal
     dataPrivacyLink.addEventListener('click', (e) => {
@@ -856,15 +916,32 @@
         privacyModal.style.display = 'flex';
     });
 
+    // Open terms modal
+    termsOfServiceLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        termsModal.style.display = 'flex';
+    });
+
     // Close privacy modal
     closePrivacyBtn.addEventListener('click', () => {
         privacyModal.style.display = 'none';
     });
 
-    // Close privacy modal when clicking outside
+    // Close terms modal
+    closeTermsBtn.addEventListener('click', () => {
+        termsModal.style.display = 'none';
+    });
+
+    // Close modals when clicking outside
     privacyModal.addEventListener('click', (e) => {
         if (e.target === privacyModal) {
             privacyModal.style.display = 'none';
+        }
+    });
+
+    termsModal.addEventListener('click', (e) => {
+        if (e.target === termsModal) {
+            termsModal.style.display = 'none';
         }
     });
 
