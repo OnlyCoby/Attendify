@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Attendify | Request Access / Forgot Password</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f4f8;
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background shapes */
+        .bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 30% 40%, #e0e7ff 0%, #f8fafc 100%);
+        }
+
+        .shape {
+            position: absolute;
+            z-index: -1;
+            filter: blur(60px);
+            border-radius: 50%;
+            animation: float 20s infinite alternate;
+        }
+        .shape-1 { width: 450px; height: 450px; background: rgba(79, 70, 229, 0.18); top: -15%; right: -8%; animation-duration: 16s; }
+        .shape-2 { width: 380px; height: 380px; background: rgba(16, 185, 129, 0.1); bottom: -12%; left: -8%; animation-duration: 22s; }
+        .shape-3 { width: 240px; height: 240px; background: rgba(236, 72, 153, 0.12); top: 45%; left: 10%; animation-duration: 19s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(60px, 80px) rotate(12deg); }
+        }
+
+        /* Card with glassmorphism */
+        .access-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 3rem 2.2rem;
+            border-radius: 40px;
+            box-shadow: 0 30px 55px -15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 470px;
+            transition: all 0.3s ease;
+        }
+
+        /* Fade-in animation */
+        .animate-in {
+            animation: fadeSlideUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+            opacity: 0;
+        }
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.15s; }
+        .delay-3 { animation-delay: 0.25s; }
+        .delay-4 { animation-delay: 0.35s; }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Brand header */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.8rem;
+            justify-content: center;
+        }
+        .brand-icon {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            color: white;
+            padding: 9px 18px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+        .brand h1 {
+            font-size: 1.85rem;
+            margin: 0;
+            letter-spacing: -0.5px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1f2937, #4f46e5);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 1.9rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--text-main);
+            padding-left: 6px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            outline: none;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            background: white;
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(125deg, var(--primary), #6366f1);
+            color: white;
+            border: none;
+            border-radius: 28px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 12px 22px -8px rgba(79, 70, 229, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.75;
+            cursor: not-allowed;
+            transform: scale(0.98);
+        }
+
+        .btn-submit:active:not(:disabled) {
+            transform: scale(0.97);
+        }
+
+        /* alert messages */
+        .alert-message {
+            margin-top: 1.2rem;
+            padding: 12px 16px;
+            border-radius: 24px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .error-msg {
+            background: rgba(239, 68, 68, 0.12);
+            color: #b91c1c;
+            border-left: 4px solid var(--error);
+        }
+
+        .success-msg {
+            background: rgba(16, 185, 129, 0.12);
+            color: #0a6b47;
+            border-left: 4px solid var(--success);
+        }
+
+        .info-note {
+            background: rgba(79, 70, 229, 0.08);
+            margin-top: 1.5rem;
+            padding: 12px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #334155;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .back-link a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+            gap: 10px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+        }
+
+        /* micro-interactions */
+        @media (max-width: 480px) {
+            .access-card {
+                padding: 2.2rem 1.5rem;
+            }
+            .brand h1 {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.35rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-canvas"></div>
+<div class="shape shape-1"></div>
+<div class="shape shape-2"></div>
+<div class="shape shape-3"></div>
+
+<div class="access-card">
+    <div class="brand animate-in delay-1">
+        <div class="brand-icon">A</div>
+        <h1>Attendify</h1>
+    </div>
+
+    <h2 class="animate-in delay-1">Reset Password</h2>
+    <p class="subtitle animate-in delay-1">
+        Enter your email address and we will send you a password reset link.
+    </p>
+
+    <form id="requestAccessForm" class="animate-in delay-2">
+        <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-wrapper">
+                <input type="email" id="requestEmail" placeholder="admin@attendify.com" required autocomplete="email">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="requestBtn">
+            <span>Send Recovery Link</span>
+        </button>
+
+        <div id="feedbackMessage" class="alert-message"></div>
+        
+        <div class="info-note animate-in delay-3">
+            A password reset link will be sent to your email if it is registered in our system.
+        </div>
+    </form>
+
+    <div class="back-link animate-in delay-4">
+        <a href="#" id="backToLoginBtn">
+            Back to Sign In
+        </a>
+        <hr>
+        <p style="font-size: 0.8rem; margin-top: 10px;">Need help? <a href="mailto:support@attendify.com" style="color:#4f46e5;">Contact Support</a></p>
+    </div>
+</div>
+
+<script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    // Initialize Supabase client with your credentials
+    const supabase = createClient(
+        "https://jutdgdrmzuktudxgixqq.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1dGRnZHJtenVrdHVkeGdpeHFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MDk2OTcsImV4cCI6MjA5MTQ4NTY5N30.VLS2G0sAnmp40mbjnr70Pv_v5-9eHSOBSHfl2AtQhYM"
+    );
+
+    const requestForm = document.getElementById('requestAccessForm');
+    const requestBtn = document.getElementById('requestBtn');
+    const feedbackDiv = document.getElementById('feedbackMessage');
+    const emailInput = document.getElementById('requestEmail');
+
+    // Helper to show message (success or error)
+    function showMessage(type, text) {
+        feedbackDiv.className = `alert-message ${type === 'error' ? 'error-msg' : 'success-msg'}`;
+        feedbackDiv.innerText = text;
+        feedbackDiv.style.display = 'block';
+        
+        // Auto hide error messages after 5 seconds, keep success visible
+        if (type === 'error') {
+            setTimeout(() => {
+                if (feedbackDiv.style.display === 'block' && feedbackDiv.classList.contains('error-msg')) {
+                    feedbackDiv.style.display = 'none';
+                }
+            }, 6000);
+        }
+    }
+
+    function resetButtonState(isLoading, originalText = "Send Recovery Link") {
+        if (isLoading) {
+            requestBtn.disabled = true;
+            requestBtn.innerHTML = `<span class="spinner"></span> Sending request...`;
+        } else {
+            requestBtn.disabled = false;
+            requestBtn.innerHTML = originalText;
+        }
+    }
+
+    // Clear previous messages on new input focus
+    emailInput.addEventListener('focus', () => {
+        if (feedbackDiv.style.display === 'block') {
+            feedbackDiv.style.display = 'none';
+        }
+        // Remove any dynamic hint that might exist
+        const existingHint = document.getElementById('dynamic-hint');
+        if (existingHint) {
+            existingHint.remove();
+        }
+    });
+
+    requestForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = emailInput.value.trim();
+        if (!email) {
+            showMessage('error', 'Please enter your email address.');
+            return;
+        }
+        
+        // Basic email format validation
+        const emailPattern = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/i;
+        if (!emailPattern.test(email)) {
+            showMessage('error', 'Please provide a valid email address (e.g., name@domain.com).');
+            return;
+        }
+        
+        // Disable button and show loader
+        resetButtonState(true);
+        feedbackDiv.style.display = 'none';
+        
+        // Remove any existing dynamic hint
+        const existingHint = document.getElementById('dynamic-hint');
+        if (existingHint) {
+            existingHint.remove();
+        }
+        
+        try {
+            // First, check if user exists by trying to get user data
+            // We'll use resetPasswordForEmail which is the proper Supabase method
+            // This sends a real password reset email to the user if they exist
+            const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/update-password.html',
+            });
+            
+            if (error) {
+                console.error("Password reset error details:", error);
+                
+                // Handle specific error cases
+                if (error.message && error.message.toLowerCase().includes('user not found')) {
+                    showMessage('error', 'No account found with this email address. Please check and try again.');
+                } else if (error.message && error.message.toLowerCase().includes('rate limit')) {
+                    showMessage('error', 'Too many requests. Please wait a few minutes before trying again.');
+                } else {
+                    showMessage('error', error.message || 'Failed to send reset link. Please try again later.');
+                }
+                resetButtonState(false);
+                return;
+            }
+            
+            // Success - the reset email has been sent by Supabase
+            showMessage('success', 
+                `A password reset link has been sent to ${email}. Please check your inbox (and spam folder) and follow the instructions to reset your password.`
+            );
+            
+            resetButtonState(false);
+            
+            // Add a direct link back to login page
+            setTimeout(() => {
+                if (!document.getElementById('dynamic-hint') && feedbackDiv.style.display === 'block') {
+                    const hintSpan = document.createElement('div');
+                    hintSpan.id = 'dynamic-hint';
+                    hintSpan.style.marginTop = '16px';
+                    hintSpan.style.fontSize = '0.85rem';
+                    hintSpan.style.textAlign = 'center';
+                    hintSpan.innerHTML = '<a href="#" id="redirectToLoginNow" style="color:#4f46e5; font-weight:600; text-decoration:none;">Return to Login Page →</a>';
+                    feedbackDiv.parentNode.insertBefore(hintSpan, feedbackDiv.nextSibling);
+                    
+                    const redirectLink = document.getElementById('redirectToLoginNow');
+                    if (redirectLink) {
+                        redirectLink.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            window.location.href = "admin.html";
+                        });
+                    }
+                }
+            }, 1000);
+            
+            // Clear the email input after successful send? Keep it for user reference
+            // Optionally clear after success but let user see what email was used
+            
+        } catch (err) {
+            console.error('Unexpected error during password reset:', err);
+            showMessage('error', 'Network error. Please check your connection and try again.');
+            resetButtonState(false);
+        }
+    });
+
+    // Back to login button logic
+    const backBtn = document.getElementById('backToLoginBtn');
+    backBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = "admin.html";
+    });
+</script>
+
+</body>
+</html>
