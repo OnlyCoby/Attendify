@@ -325,31 +325,31 @@
         <h1><span>A</span> Attendify</h1>
         <div class="nav-group">
             <div class="nav-label">Core Features</div>
-            <div class="nav-item active" id="nav-dash" onclick="switchView('dashboard')">📊 Monitoring Dashboard</div>
-            <div class="nav-item" id="nav-schedule" onclick="switchView('schedule')">📅 Session Scheduling</div>
-            <div class="nav-item" id="nav-validation" onclick="switchView('validation')">✅ Attendance Validation</div>
+            <div class="nav-item active" id="nav-dash" onclick="switchView('dashboard')">Monitoring Dashboard</div>
+            <div class="nav-item" id="nav-schedule" onclick="switchView('schedule')">Session Scheduling</div>
+            <div class="nav-item" id="nav-validation" onclick="switchView('validation')">Attendance Validation</div>
         </div>
         <div class="nav-group">
             <div class="nav-label">Security</div>
-            <div class="nav-item" id="nav-qr-security" onclick="switchView('qr-security')">🔐 QR Security Settings</div>
+            <div class="nav-item" id="nav-qr-security" onclick="switchView('qr-security')">QR Security Settings</div>
         </div>
         <div class="nav-group">
             <div class="nav-label">Reports</div>
-            <div class="nav-item" id="nav-reports" onclick="switchView('reports')">📈 Reports & Export</div>
+            <div class="nav-item" id="nav-reports" onclick="switchView('reports')">Reports and Export</div>
         </div>
         <div class="nav-group">
             <div class="nav-label">Data Management</div>
-            <div class="nav-item" id="nav-audit" onclick="switchView('audit')">📜 Audit Trail</div>
-            <div class="nav-item" id="nav-backup" onclick="switchView('backup')">💾 Backup & Recovery</div>
+            <div class="nav-item" id="nav-audit" onclick="switchView('audit')">Audit Trail</div>
+            <div class="nav-item" id="nav-backup" onclick="switchView('backup')">Backup and Recovery</div>
         </div>
         <div class="nav-group" style="margin-top: auto;">
-            <div class="nav-item" onclick="logout()" style="color: var(--danger); background: #fff1f2;">🚪 Log Out</div>
+            <div class="nav-item" onclick="logout()" style="color: var(--danger); background: #fff1f2;">Log Out</div>
         </div>
     </aside>
 
     <div class="main-wrapper">
         <header class="top-header">
-            <div style="font-weight: 800;">🎓 Complete Attendance System</div>
+            <div style="font-weight: 800;">Complete Attendance System</div>
             <div style="display: flex; align-items: center; gap: 12px;">
                 <div class="profile-btn" id="profileBtn" onclick="showProfileModal()">
                     <div class="profile-info-small">
@@ -371,7 +371,7 @@
                     <div class="stat-card"><div class="stat-number" id="uniqueStudentsStat">0</div><div class="stat-label">Unique Students</div></div>
                 </div>
                 <div class="card">
-                    <h3>📋 Active & Expired Sessions</h3>
+                    <h3>Active and Expired Sessions</h3>
                     <div id="activeSessionsList" style="max-height: 450px; overflow-y: auto;">
                         <div style="text-align: center; color: var(--text-muted); padding: 40px;">No sessions found</div>
                     </div>
@@ -382,7 +382,7 @@
             <section id="view-schedule" class="view-section">
                 <div class="grid-layout">
                     <div class="card">
-                        <h3>📅 Schedule New Session</h3>
+                        <h3>Schedule New Session</h3>
                         <input type="text" id="sessionName" placeholder="Session Name *">
                         <textarea id="sessionDesc" rows="2" placeholder="Description (Optional)"></textarea>
                         <div class="form-row">
@@ -401,10 +401,10 @@
                                 <option value="480">8 Hours (Full Day)</option>
                             </select>
                         </div>
-                        <button class="btn btn-primary" style="width:100%" onclick="scheduleSession()">✅ Schedule Session</button>
+                        <button class="btn btn-primary" style="width:100%" onclick="scheduleSession()">Schedule Session</button>
                     </div>
                     <div class="card">
-                        <h3>📋 Scheduled Sessions</h3>
+                        <h3>Scheduled Sessions</h3>
                         <div id="scheduledSessionsList" style="max-height: 500px; overflow-y: auto;">
                             <div style="text-align: center; color: var(--text-muted); padding: 40px;">No scheduled sessions</div>
                         </div>
@@ -415,13 +415,13 @@
             <!-- Attendance Validation -->
             <section id="view-validation" class="view-section">
                 <div class="card">
-                    <h3>✅ Attendance Validation Dashboard</h3>
+                    <h3>Attendance Validation Dashboard</h3>
                     <p style="color: var(--text-muted); margin-bottom: 15px;">Review attendance entries with Time In/Out tracking and photo verification. <strong>Click on any photo to enlarge.</strong></p>
                     
                     <div class="action-buttons">
-                        <button class="btn btn-danger btn-sm" onclick="deleteSelectedSession()">🗑️ Delete Selected Session</button>
-                        <button class="btn btn-warning btn-sm" onclick="exportAllData()">📥 Export All Data</button>
-                        <button class="btn btn-success btn-sm" onclick="backupData()">💾 Backup Data</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteSelectedSession()">Delete Selected Session</button>
+                        <button class="btn btn-warning btn-sm" onclick="exportAllData()">Export All Data</button>
+                        <button class="btn btn-success btn-sm" onclick="backupData()">Backup Data</button>
                     </div>
                     
                     <div id="debugInfo" class="debug-info"></div>
@@ -436,7 +436,7 @@
                             </thead>
                             <tbody id="validationTableBody"><tr><td colspan="11" style="text-align:center;">Select a session</td></tr>
                             </tbody>
-                        }</table>
+                        </table>
                     </div>
                 </div>
             </section>
@@ -444,11 +444,11 @@
             <!-- QR Security Settings -->
             <section id="view-qr-security" class="view-section">
                 <div class="card security-settings-panel">
-                    <h3>🔐 QR Code Security Settings</h3>
+                    <h3>QR Code Security Settings</h3>
                     <p style="color: #92400e; margin-bottom: 1rem;">Configure security parameters to prevent QR code misuse</p>
                     
                     <div style="margin-bottom: 1.5rem;">
-                        <label>⏱️ QR Code Expiration Time</label>
+                        <label>QR Code Expiration Time</label>
                         <div class="setting-slider">
                             <input type="range" id="qrExpiryMinutes" min="5" max="480" step="5" value="60">
                             <span class="setting-value" id="qrExpiryValue">60 minutes</span>
@@ -457,7 +457,7 @@
                     </div>
                     
                     <div style="margin-bottom: 1.5rem;">
-                        <label>🔁 Maximum Scans Per User (per session)</label>
+                        <label>Maximum Scans Per User (per session)</label>
                         <div class="setting-slider">
                             <input type="range" id="maxScansPerUser" min="1" max="10" step="1" value="3">
                             <span class="setting-value" id="maxScansValue">3 scans</span>
@@ -466,16 +466,16 @@
                     </div>
                     
                     <div style="margin-bottom: 1.5rem;">
-                        <label>👥 Allowed Roles to Scan</label>
+                        <label>Allowed Roles to Scan</label>
                         <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
-                            <label><input type="checkbox" id="allowStudent" checked> 🎓 Student</label>
-                            <label><input type="checkbox" id="allowEmployee" checked> 💼 Employee</label>
+                            <label><input type="checkbox" id="allowStudent" checked> Student</label>
+                            <label><input type="checkbox" id="allowEmployee" checked> Employee</label>
                         </div>
                     </div>
                     
                     <div class="form-row">
-                        <button class="btn btn-primary" onclick="saveQRSecuritySettings()">💾 Save Security Settings</button>
-                        <button class="btn btn-outline" onclick="resetQRSecuritySettings()">🔄 Reset to Default</button>
+                        <button class="btn btn-primary" onclick="saveQRSecuritySettings()">Save Security Settings</button>
+                        <button class="btn btn-outline" onclick="resetQRSecuritySettings()">Reset to Default</button>
                     </div>
                     
                     <div id="qrSecurityStatus" style="margin-top: 1rem; padding: 0.75rem; border-radius: 12px; display: none;"></div>
@@ -485,12 +485,12 @@
             <!-- Reports & Export -->
             <section id="view-reports" class="view-section">
                 <div class="card">
-                    <h3>📑 Attendance Reports</h3>
+                    <h3>Attendance Reports</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
                         <select id="reportSessionSelect" style="flex:1;"><option value="">-- Select Session --</option></select>
                         <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
-                        <button class="btn btn-outline" onclick="exportCSV()">📎 Export CSV</button>
-                        <button class="btn btn-success" onclick="exportAllData()">📦 Export All Data</button>
+                        <button class="btn btn-outline" onclick="exportCSV()">Export CSV</button>
+                        <button class="btn btn-success" onclick="exportAllData()">Export All Data</button>
                     </div>
                     <div id="reportSummary" style="background: var(--accent-soft); border-radius: 16px; padding: 1rem;">
                         <p style="color: var(--text-muted);">Select a session to generate attendance report with Time In/Out data.</p>
@@ -501,7 +501,7 @@
             <!-- Audit Trail Logging -->
             <section id="view-audit" class="view-section">
                 <div class="card">
-                    <h3>📜 Audit Trail Log</h3>
+                    <h3>Audit Trail Log</h3>
                     <p style="color: var(--text-muted); margin-bottom: 15px;">Track all scans, edits, and attendance updates for accountability.</p>
                     
                     <div class="filters">
@@ -521,9 +521,9 @@
                             <option value="EXPORT_DATA">Export Data</option>
                         </select>
                         <input type="date" id="auditFilterDate">
-                        <button class="btn btn-primary btn-sm" onclick="loadAuditLogs()">🔍 Filter</button>
-                        <button class="btn btn-outline btn-sm" onclick="resetAuditFilters()">🔄 Reset</button>
-                        <button class="btn btn-success btn-sm" onclick="exportAuditLogs()">📥 Export Audit Log</button>
+                        <button class="btn btn-primary btn-sm" onclick="loadAuditLogs()">Filter</button>
+                        <button class="btn btn-outline btn-sm" onclick="resetAuditFilters()">Reset</button>
+                        <button class="btn btn-success btn-sm" onclick="exportAuditLogs()">Export Audit Log</button>
                     </div>
                     
                     <div class="table-wrapper">
@@ -539,7 +539,7 @@
                                 </tr>
                             </thead>
                             <tbody id="auditLogsBody">
-                                <tr><td colspan="6" style="text-align: center;">Loading audit logs...</td></tr>
+                                <td><td colspan="6" style="text-align: center;">Loading audit logs...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -567,7 +567,7 @@
             <!-- Backup & Recovery -->
             <section id="view-backup" class="view-section">
                 <div class="card">
-                    <h3>💾 Data Backup & Recovery</h3>
+                    <h3>Data Backup and Recovery</h3>
                     <p style="color: var(--text-muted); margin-bottom: 20px;">Secure storage of attendance records to prevent data loss.</p>
                     
                     <div class="stats-grid" style="margin-bottom: 20px;">
@@ -586,13 +586,13 @@
                     </div>
                     
                     <div class="form-row">
-                        <button class="btn btn-primary" onclick="backupData()">💾 Create Backup</button>
-                        <button class="btn btn-success" onclick="exportAllData()">📥 Download Backup</button>
-                        <button class="btn btn-warning" onclick="restoreBackup()">🔄 Restore from Backup</button>
+                        <button class="btn btn-primary" onclick="backupData()">Create Backup</button>
+                        <button class="btn btn-success" onclick="exportAllData()">Download Backup</button>
+                        <button class="btn btn-warning" onclick="restoreBackup()">Restore from Backup</button>
                     </div>
                     
                     <div style="margin-top: 20px;">
-                        <h4>📋 Backup History</h4>
+                        <h4>Backup History</h4>
                         <div id="backupHistory" style="max-height: 200px; overflow-y: auto;">
                             <div style="text-align: center; padding: 20px; color: var(--text-muted);">No backups found</div>
                         </div>
@@ -606,16 +606,16 @@
     <div id="qrModal" class="modal-overlay" style="display:none;">
         <div class="modal-card">
             <div class="modal-header">
-                <h2 id="qrModalTitle">🎫 Session QR Code</h2>
+                <h2 id="qrModalTitle">Session QR Code</h2>
                 <button class="btn btn-outline btn-sm" onclick="closeQRModal()">Close</button>
             </div>
             <div class="modal-body">
                 <div id="qrModalContent" style="display: flex; justify-content: center; align-items: center; min-height: 250px;"></div>
                 <p id="qrSessionInfo"></p>
                 <div style="display:flex;gap:10px;justify-content:center;margin-top:15px;">
-                    <button class="btn btn-primary btn-sm" onclick="downloadQRCode()">📥 Download QR</button>
-                    <button class="btn btn-success btn-sm" onclick="copySessionIdToClipboard()">📋 Copy ID</button>
-                    <button class="btn btn-warning btn-sm" onclick="activateSession()">🔓 Activate</button>
+                    <button class="btn btn-primary btn-sm" onclick="downloadQRCode()">Download QR</button>
+                    <button class="btn btn-success btn-sm" onclick="copySessionIdToClipboard()">Copy ID</button>
+                    <button class="btn btn-warning btn-sm" onclick="activateSession()">Activate</button>
                 </div>
             </div>
         </div>
@@ -625,7 +625,7 @@
     <div id="profileModal" class="modal-overlay" style="display:none;">
         <div class="modal-card">
             <div class="modal-header">
-                <h3>👤 My Profile</h3>
+                <h3>My Profile</h3>
                 <button class="btn btn-outline btn-sm" onclick="closeProfileModal()">Close</button>
             </div>
             <div class="modal-body">
@@ -645,7 +645,7 @@
                     <label>Member Since</label>
                     <div class="value" id="modalCreatedAt" style="font-weight: 600;">-</div>
                 </div>
-                <button class="btn btn-danger" style="width:100%; margin-top: 1rem;" onclick="logout()">🚪 Logout</button>
+                <button class="btn btn-danger" style="width:100%; margin-top: 1rem;" onclick="logout()">Logout</button>
             </div>
         </div>
     </div>
@@ -653,7 +653,7 @@
     <!-- Photo Preview Modal -->
     <div id="photoPreviewOverlay" class="photo-preview-overlay" onclick="closePhotoPreview()">
         <div class="photo-preview-container" onclick="event.stopPropagation()">
-            <button class="close-preview" onclick="closePhotoPreview()">✕ Close</button>
+            <button class="close-preview" onclick="closePhotoPreview()">Close</button>
             <img id="previewImage" src="">
             <div id="previewCaption" style="color: white; text-align: center; margin-top: 15px;"></div>
         </div>
@@ -699,11 +699,11 @@ function escapeHtml(s) { if (!s) return ''; return String(s).replace(/[&<>]/g, m
 
 function getStatusBadge(status) {
     if (status === 'verified') {
-        return '<span class="badge badge-verified">✓ Verified</span>';
+        return '<span class="badge badge-verified">Verified</span>';
     } else if (status === 'suspicious') {
-        return '<span class="badge badge-suspicious">⚠️ Suspicious</span>';
+        return '<span class="badge badge-suspicious">Suspicious</span>';
     } else {
-        return '<span class="badge badge-pending">⏳ Pending</span>';
+        return '<span class="badge badge-pending">Pending</span>';
     }
 }
 
@@ -712,11 +712,11 @@ function getSessionStatusBadge(session) {
     const endTime = dayjs(session.end_datetime).tz(PH_TIMEZONE);
     
     if (session.status === 'active') {
-        return '<span class="badge badge-active">🟢 Active</span>';
+        return '<span class="badge badge-active">Active</span>';
     } else if (endTime.isBefore(now)) {
-        return '<span class="badge badge-expired">🔴 Expired</span>';
+        return '<span class="badge badge-expired">Expired</span>';
     } else {
-        return '<span class="badge badge-info">⏳ Scheduled</span>';
+        return '<span class="badge badge-info">Scheduled</span>';
     }
 }
 
@@ -813,21 +813,21 @@ async function loadAuditLogs() {
     tbody.innerHTML = auditLogs.map(log => {
         let statusBadge = '';
         if (log.status === 'SUCCESS') {
-            statusBadge = '<span class="badge badge-success">✓ Success</span>';
+            statusBadge = '<span class="badge badge-success">Success</span>';
         } else if (log.status === 'FAILURE') {
-            statusBadge = '<span class="badge badge-danger">✗ Failed</span>';
+            statusBadge = '<span class="badge badge-danger">Failed</span>';
         } else {
-            statusBadge = '<span class="badge badge-warning">⚠️ Warning</span>';
+            statusBadge = '<span class="badge badge-warning">Warning</span>';
         }
         
         let actionIcon = '';
-        if (log.action_type === 'SCAN_QR') actionIcon = '📱';
-        else if (log.action_type === 'CREATE_SESSION') actionIcon = '📅';
-        else if (log.action_type === 'VERIFY_ATTENDANCE') actionIcon = '✅';
-        else if (log.action_type === 'DELETE_SESSION') actionIcon = '🗑️';
-        else if (log.action_type === 'BACKUP') actionIcon = '💾';
-        else if (log.action_type === 'EDIT_SETTINGS') actionIcon = '⚙️';
-        else actionIcon = '📝';
+        if (log.action_type === 'SCAN_QR') actionIcon = 'QR';
+        else if (log.action_type === 'CREATE_SESSION') actionIcon = 'SESS';
+        else if (log.action_type === 'VERIFY_ATTENDANCE') actionIcon = 'VER';
+        else if (log.action_type === 'DELETE_SESSION') actionIcon = 'DEL';
+        else if (log.action_type === 'BACKUP') actionIcon = 'BAK';
+        else if (log.action_type === 'EDIT_SETTINGS') actionIcon = 'SET';
+        else actionIcon = 'LOG';
         
         return `
             <tr>
@@ -866,7 +866,7 @@ function exportAuditLogs() {
     link.click();
     URL.revokeObjectURL(url);
     
-    alert('✅ Audit logs exported successfully!');
+    alert('Audit logs exported successfully!');
     
     // Log the export action
     logAuditEvent('EXPORT_DATA', 'Exported audit logs', 'AUDIT', 'all', 'SUCCESS', { recordCount: auditLogs.length });
@@ -939,7 +939,7 @@ window.saveQRSecuritySettings = async () => {
         statusDiv.style.display = 'block';
         statusDiv.style.background = '#d1fae5';
         statusDiv.style.color = '#065f46';
-        statusDiv.innerHTML = '✅ QR Security settings saved successfully!';
+        statusDiv.innerHTML = 'QR Security settings saved successfully!';
         setTimeout(() => { statusDiv.style.display = 'none'; }, 3000);
         
         alert('Security settings saved!');
@@ -973,11 +973,11 @@ window.generateQRForSession = async (sessionId, sessionName) => {
         const currentTime = formatPHTime(getCurrentPHTime().toISOString());
         document.getElementById('qrSessionInfo').innerHTML = `
             <strong>${escapeHtml(sessionName)}</strong><br>
-            📅 Generated: ${currentTime}<br>
-            📱 Scan this QR code to check in/out<br>
-            🆔 Session ID: ${escapeHtml(sessionId.substring(0, 8))}...
+            Generated: ${currentTime}<br>
+            Scan this QR code to check in/out<br>
+            Session ID: ${escapeHtml(sessionId.substring(0, 8))}...
         `;
-        document.getElementById('qrModalTitle').innerHTML = `🎫 ${escapeHtml(sessionName)} QR Code`;
+        document.getElementById('qrModalTitle').innerHTML = `${escapeHtml(sessionName)} QR Code`;
         document.getElementById('qrModal').style.display = 'flex';
         
         // Log QR generation
@@ -993,7 +993,7 @@ window.generateQRForSession = async (sessionId, sessionName) => {
 window.viewAttendees = async (sessionId, sessionName) => {
     const modal = document.getElementById('qrModal');
     modal.style.display = 'flex';
-    document.getElementById('qrModalTitle').innerHTML = `📋 ${escapeHtml(sessionName)} - Attendees`;
+    document.getElementById('qrModalTitle').innerHTML = `${escapeHtml(sessionName)} - Attendees`;
     
     try {
         let { data: attendees } = await supabase.from('attendance').select('*').eq('session_id', sessionId);
@@ -1023,11 +1023,11 @@ window.viewAttendees = async (sessionId, sessionName) => {
                     <div class="attendee-item" style="background: #f3f4f6; padding: 12px; margin-bottom: 8px; border-radius: 12px; text-align: left;">
                         <div class="attendee-name" style="font-weight: 700;">${i+1}. ${escapeHtml(a.info.full_name || 'Unknown')}</div>
                         <div class="attendee-details" style="font-size: 12px; color: #64748b; margin-top: 5px;">
-                            ${a.info.status ? `🎓 ${escapeHtml(a.info.status)}<br>` : ''}
-                            🆔 ID: ${escapeHtml(a.info.id_number || '—')}<br>
-                            📧 ${escapeHtml(a.info.email || '—')}<br>
-                            ⏰ In: ${a.timeIn ? formatDateTime(a.timeIn) : '—'}<br>
-                            🚪 Out: ${a.timeOut ? formatDateTime(a.timeOut) : '—'}<br>
+                            ${a.info.status ? `${escapeHtml(a.info.status)}<br>` : ''}
+                            ID: ${escapeHtml(a.info.id_number || '—')}<br>
+                            ${escapeHtml(a.info.email || '—')}<br>
+                            In: ${a.timeIn ? formatDateTime(a.timeIn) : '—'}<br>
+                            Out: ${a.timeOut ? formatDateTime(a.timeOut) : '—'}<br>
                             ${getStatusBadge(a.info.validation_status)}
                         </div>
                     </div>
@@ -1066,7 +1066,7 @@ window.deleteSelectedSession = async () => {
             // Log deletion
             await logAuditEvent('DELETE_SESSION', `Deleted session "${sessionName}" with all attendance records`, 'SESSION', sessionId, 'SUCCESS');
             
-            alert(`✅ Session "${sessionName}" and all its attendance records have been deleted!`);
+            alert(`Session "${sessionName}" and all its attendance records have been deleted!`);
             
             loadScheduledSessions();
             loadSessionSelectors();
@@ -1112,7 +1112,7 @@ window.backupData = async () => {
         // Log backup creation
         await logAuditEvent('BACKUP', `Created backup with ${backup.data.sessions.length} sessions, ${backup.data.attendance.length} attendance records`, 'BACKUP', backup.timestamp, 'SUCCESS');
         
-        alert(`✅ Backup created successfully!\n📊 ${backup.data.sessions.length} sessions\n📝 ${backup.data.attendance.length} attendance records\n👥 ${backup.data.profiles.length} users`);
+        alert(`Backup created successfully!\n${backup.data.sessions.length} sessions\n${backup.data.attendance.length} attendance records\n${backup.data.profiles.length} users`);
         
         loadBackupStats();
         loadBackupHistory();
@@ -1149,7 +1149,7 @@ window.exportAllData = async () => {
         // Log export
         await logAuditEvent('EXPORT_DATA', 'Exported all system data', 'EXPORT', 'all', 'SUCCESS', { recordCount: exportData.sessions.length + exportData.attendance.length + exportData.users.length });
         
-        alert('✅ Data exported successfully!');
+        alert('Data exported successfully!');
         
     } catch (error) {
         console.error('Export error:', error);
@@ -1188,7 +1188,7 @@ window.restoreBackup = () => {
                     // Log restore
                     await logAuditEvent('RESTORE_BACKUP', `Restored data from backup ${backup.formattedDate}`, 'BACKUP', 'restore', 'SUCCESS');
                     
-                    alert('✅ Data restored successfully!');
+                    alert('Data restored successfully!');
                     
                     updateDashboard();
                     loadScheduledSessions();
@@ -1228,10 +1228,10 @@ function loadBackupHistory() {
     container.innerHTML = backups.map(backup => `
         <div class="session-item" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <strong>📦 Backup ${backup.formattedDate}</strong><br>
-                <small>📊 ${backup.recordCount} records</small>
+                <strong>Backup ${backup.formattedDate}</strong><br>
+                <small>${backup.recordCount} records</small>
             </div>
-            <button class="btn btn-danger btn-sm" onclick="deleteBackup(${backup.id})">🗑️ Delete</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteBackup(${backup.id})">Delete</button>
         </div>
     `).join('');
 }
@@ -1323,7 +1323,7 @@ window.activateSession = async () => {
     if(currentQRsession){ 
         await supabase.from('sessions').update({ status:'active' }).eq('id',currentQRsession.id); 
         await logAuditEvent('ACTIVATE_SESSION', `Activated session "${currentQRsession.name}"`, 'SESSION', currentQRsession.id, 'SUCCESS');
-        alert(`✅ Session "${currentQRsession.name}" activated!`); 
+        alert(`Session "${currentQRsession.name}" activated!`); 
         loadScheduledSessions(); 
         updateDashboard(); 
         closeQRModal(); 
@@ -1381,7 +1381,7 @@ window.scheduleSession = async () => {
     }]).select();
     
     if(error){alert("Error: "+error.message);return;}
-    alert(`✅ Session "${name}" scheduled!`);
+    alert(`Session "${name}" scheduled!`);
     
     document.getElementById('sessionName').value=''; 
     document.getElementById('sessionDesc').value=''; 
@@ -1408,12 +1408,12 @@ async function loadScheduledSessions() {
         <div class="session-item" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
             <div>
                 <strong>${escapeHtml(s.name)}</strong><br>
-                <small>📅 ${formatDate(s.start_datetime)} at ${formatTime(s.start_datetime)}</small><br>
-                <small>📍 ${escapeHtml(s.location||'TBA')}</small>
+                <small>${formatDate(s.start_datetime)} at ${formatTime(s.start_datetime)}</small><br>
+                <small>${escapeHtml(s.location||'TBA')}</small>
             </div>
             <div style="display:flex;gap:8px;">
-                <button class="btn btn-primary btn-sm" onclick="generateQRForSession('${s.id}','${escapeHtml(s.name)}')">🎫 QR</button>
-                <button class="btn btn-outline btn-sm" onclick="viewAttendees('${s.id}','${escapeHtml(s.name)}')">👥 View</button>
+                <button class="btn btn-primary btn-sm" onclick="generateQRForSession('${s.id}','${escapeHtml(s.name)}')">QR</button>
+                <button class="btn btn-outline btn-sm" onclick="viewAttendees('${s.id}','${escapeHtml(s.name)}')">View</button>
             </div>
         </div>
     `).join('');
@@ -1428,7 +1428,7 @@ async function loadSessionSelectors() {
         document.getElementById('validationSessionSelect').innerHTML = defaultOption + options;
         document.getElementById('reportSessionSelect').innerHTML = defaultOption + options;
         if (!data || data.length === 0) {
-            showDebug('ℹ️ No sessions available. Please create a session in the "Session Scheduling" tab first.', false);
+            showDebug('No sessions available. Please create a session in the "Session Scheduling" tab first.', false);
         }
     } catch(e) { console.error('Error in loadSessionSelectors:', e); }
 }
@@ -1436,13 +1436,13 @@ async function loadSessionSelectors() {
 async function loadValidationSession() {
     const sessionId=document.getElementById('validationSessionSelect').value;
     if(!sessionId){
-        document.getElementById('validationTableBody').innerHTML='<tr><td colspan="11" style="text-align:center;">Select a session</td></tr>';
+        document.getElementById('validationTableBody').innerHTML='<td><td colspan="11" style="text-align:center;">Select a session</td></tr>';
         return;
     }
     
     let {data}=await supabase.from('attendance').select('*').eq('session_id',sessionId);
     if(!data||data.length===0){
-        document.getElementById('validationTableBody').innerHTML='<tr><td colspan="11" style="text-align:center;">No attendance records for this session</td></tr>';
+        document.getElementById('validationTableBody').innerHTML='<td><td colspan="11" style="text-align:center;">No attendance records for this session</td></tr>';
         return;
     }
     
@@ -1460,20 +1460,20 @@ async function loadValidationSession() {
         const photoUrl = a.photo_url && a.photo_url.startsWith('http') ? a.photo_url : `https://ui-avatars.com/api/?name=${encodeURIComponent(a.full_name || 'User')}&background=6366f1&color=fff&bold=true&size=100&rounded=true`;
         return `<tr>
             <td><img src="${photoUrl}" class="student-photo" style="width:45px;height:45px;object-fit:cover;border-radius:12px;cursor:pointer;" onclick="showFullPhoto('${photoUrl}','${escapeHtml(a.full_name)}','${a.user_id}')"></td>
-            <td><span class="badge ${a.status==='Student'?'badge-info':'badge-success'}">${a.status==='Student'?'🎓 Student':'💼 Employee'}</span></td>
+            <td><span class="badge ${a.status==='Student'?'badge-info':'badge-success'}">${a.status==='Student'?'Student':'Employee'}</span></td>
             <td><strong>${escapeHtml(a.full_name)}</strong></td>
             <td><small>${escapeHtml(a.email||'—')}</small></td>
             <td>${escapeHtml(a.college_position || a.course_position || '—')}</td>
             <td>${escapeHtml(a.department || '—')}</td>
-            <td><span class="badge badge-id">🆔 ${escapeHtml(a.id_number || '—')}</span></td>
+            <td><span class="badge badge-id">${escapeHtml(a.id_number || '—')}</span></td>
             <td><span class="time-badge time-in">${e.timeIn?formatDateTime(e.timeIn):'—'}</span></td>
             <td><span class="time-badge ${e.timeOut?'time-out':'time-in'}">${e.timeOut?formatDateTime(e.timeOut):'—'}</span></td>
             <td>${getStatusBadge(a.validation_status)}</td>
             <td class="validation-actions">
-                <button class="btn btn-success btn-sm" onclick="validateAttendance('${a.id}','verified')">✓ Verify</button>
-                <button class="btn btn-warning btn-sm" onclick="validateAttendance('${a.id}','suspicious')">⚠️ Flag</button>
+                <button class="btn btn-success btn-sm" onclick="validateAttendance('${a.id}','verified')">Verify</button>
+                <button class="btn btn-warning btn-sm" onclick="validateAttendance('${a.id}','suspicious')">Flag</button>
             </td>
-        </tr>`;
+        </table>`;
     }).join('');
 }
 
@@ -1485,7 +1485,7 @@ window.validateAttendance = async (id, status) => {
     await logAuditEvent(status === 'verified' ? 'VERIFY_ATTENDANCE' : 'FLAG_ATTENDANCE', `${status === 'verified' ? 'Verified' : 'Flagged as suspicious'} attendance record`, 'ATTENDANCE', id, 'SUCCESS', { old_status: oldStatus, new_status: status });
     
     loadValidationSession();
-    alert(status === 'verified' ? '✅ Attendance Verified!' : '⚠️ Attendance Flagged as Suspicious!');
+    alert(status === 'verified' ? 'Attendance Verified!' : 'Attendance Flagged as Suspicious!');
 };
 
 window.generateReport = async()=>{
@@ -1528,14 +1528,14 @@ window.generateReport = async()=>{
     const pendingCount = userMap.size - verifiedCount - suspiciousCount;
     
     document.getElementById('reportSummary').innerHTML=`
-        <h4>📊 ${escapeHtml(session.name)}</h4>
+        <h4>${escapeHtml(session.name)}</h4>
         <div class="stats-grid">
             <div class="stat-card"><div class="stat-number">${userMap.size}</div><div class="stat-label">Total Attendees</div></div>
-            <div class="stat-card"><div class="stat-number">${verifiedCount}</div><div class="stat-label">✅ Verified</div></div>
-            <div class="stat-card"><div class="stat-number">${suspiciousCount}</div><div class="stat-label">⚠️ Suspicious</div></div>
-            <div class="stat-card"><div class="stat-number">${pendingCount}</div><div class="stat-label">⏳ Pending</div></div>
+            <div class="stat-card"><div class="stat-number">${verifiedCount}</div><div class="stat-label">Verified</div></div>
+            <div class="stat-card"><div class="stat-number">${suspiciousCount}</div><div class="stat-label">Suspicious</div></div>
+            <div class="stat-card"><div class="stat-number">${pendingCount}</div><div class="stat-label">Pending</div></div>
         </div>
-        <button class="btn btn-outline btn-sm" onclick="viewAttendees('${session.id}','${escapeHtml(session.name)}')">👥 View All Attendees</button>
+        <button class="btn btn-outline btn-sm" onclick="viewAttendees('${session.id}','${escapeHtml(session.name)}')">View All Attendees</button>
     `;
 };
 
@@ -1563,13 +1563,13 @@ async function loadActiveSessions(){
                     <strong>${escapeHtml(s.name)}</strong>
                     ${getSessionStatusBadge(s)}
                     <br>
-                    <small>📍 ${escapeHtml(s.location||'TBA')}</small><br>
-                    <small>📅 ${formatDateTime(s.start_datetime)}</small><br>
-                    <small>⏱️ Duration: ${s.duration_minutes} minutes</small>
+                    <small>${escapeHtml(s.location||'TBA')}</small><br>
+                    <small>${formatDateTime(s.start_datetime)}</small><br>
+                    <small>Duration: ${s.duration_minutes} minutes</small>
                 </div>
                 <div style="display:flex;gap:8px; margin-top: 8px;">
-                    <button class="btn btn-primary btn-sm" onclick="generateQRForSession('${s.id}','${escapeHtml(s.name)}')">🎫 Show QR</button>
-                    <button class="btn btn-outline btn-sm" onclick="viewAttendees('${s.id}','${escapeHtml(s.name)}')">👥 View Attendees</button>
+                    <button class="btn btn-primary btn-sm" onclick="generateQRForSession('${s.id}','${escapeHtml(s.name)}')">Show QR</button>
+                    <button class="btn btn-outline btn-sm" onclick="viewAttendees('${s.id}','${escapeHtml(s.name)}')">View Attendees</button>
                 </div>
             </div>
         </div>
