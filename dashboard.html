@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Attendify | Complete Event Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --ink: #0a0a0f;
+  --ink2: #1e1e2e;
+  --ink3: #2e2e42;
+  --muted: #7070a0;
+  --muted2: #a0a0c0;
+  --surface: #f5f4ff;
+  --surface2: #eeecff;
+  --accent: #5c4af6;
+  --accent2: #8b7ffe;
+  --accent3: #c8c2ff;
+  --lime: #b8ff57;
+  --rose: #ff4f7b;
+  --amber: #ffb23f;
+  --cyan: #3dd9d6;
+  --white: #ffffff;
+  --border: rgba(92,74,246,0.12);
+  --border2: rgba(92,74,246,0.22);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 8px rgba(92,74,246,0.08);
+  --shadow-lg: 0 8px 24px rgba(92,74,246,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  display: flex;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent3); border-radius: 4px; }
+
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: var(--ink2);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  gap: 4px;
+  overflow-y: auto;
+  position: relative;
+}
+.sidebar::after {
+  content:'';
+  position:absolute;
+  top:0; right:0;
+  width:1px;
+  height:100%;
+  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+  opacity:0.2;
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-icon {
+  width: 28px; height: 28px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+.nav-section { margin-bottom: 8px; }
+.nav-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  padding: 0 8px;
+  margin-bottom: 4px;
+  margin-top: 12px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--muted2);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+.nav-item.active {
+  background: var(--accent);
+  color: var(--white);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(92,74,246,0.3);
+}
+.nav-item .nav-icon { font-size: 0.9rem; min-width: 20px; text-align: center; }
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.user-chip:hover { background: rgba(255,255,255,0.1); }
+.user-av {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+.user-info { flex: 1; }
+.user-name { font-size: 0.8rem; font-weight: 700; color: var(--white); }
+.user-email { font-size: 0.65rem; color: var(--muted2); }
+.user-role {
+  font-size: 0.6rem;
+  background: rgba(92,74,246,0.3);
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 12px;
+  margin-top: 2px;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-width: 100%;
+}
+.topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.datetime-chip {
+  font-size: 0.7rem;
+  color: var(--muted);
+  background: var(--surface);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--surface);
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.view { display: none; animation: fadeUp 0.2s ease; }
+.view.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+.stat-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+}
+.stat-card.lime::before { background: var(--lime); }
+.stat-card.rose::before { background: var(--rose); }
+.stat-card.amber::before { background: var(--amber); }
+.stat-card.cyan::before { background: var(--cyan); }
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+.stat-label { font-size: 0.65rem; color: var(--muted); margin-top: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-sub { font-size: 0.6rem; color: var(--accent2); margin-top: 2px; }
+
+.form-group { margin-bottom: 12px; }
+.form-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  display: block;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  transition: all 0.2s;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--accent); background: var(--white); box-shadow: 0 0 0 2px rgba(92,74,246,0.1); }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: #4936e8; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(92,74,246,0.3); }
+.btn-outline { background: transparent; border: 1.5px solid var(--border2); color: var(--ink); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-success { background: #22c55e; color: white; }
+.btn-danger { background: var(--rose); color: white; }
+.btn-sm { padding: 4px 10px; font-size: 0.7rem; border-radius: 6px; }
+.btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.event-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent);
+}
+.event-card-accent {
+  position: absolute;
+  top: 0; left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.event-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 6px 0 8px;
+}
+.event-meta { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0; font-size: 0.7rem; color: var(--muted); }
+.type-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  background: var(--surface2);
+  color: var(--accent);
+}
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+.badge-active { background: #dcfce7; color: #16a34a; }
+.badge-upcoming { background: #fef9c3; color: #a16207; }
+.badge-ended { background: #fee2e2; color: #dc2626; }
+
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+}
+.empty-icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
+
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(10,10,15,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 16px;
+  width: min(480px, 90vw);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-head {
+  padding: 16px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-head h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; }
+.modal-body { padding: 16px 20px 20px; }
+.close-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--ink2);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  z-index: 2000;
+  animation: slideUp 0.2s ease;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.progress-track {
+  background: var(--surface2);
+  border-radius: 4px;
+  height: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--lime);
+  transition: width 0.3s ease;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.75rem;
+}
+
+table thead tr {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+
+table th {
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 0.65rem;
+}
+
+table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+table tbody tr:hover {
+  background: rgba(92, 74, 246, 0.05);
+}
+
+/* AI Chat Box - Enhanced */
+.ai-chat-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(92,74,246,0.3);
+  transition: all 0.3s;
+  z-index: 1000;
+  color: white;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ai-chat-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(92,74,246,0.4);
+}
+.ai-chat-btn.active {
+  animation: pulse-btn 0.6s infinite;
+}
+@keyframes pulse-btn {
+  0%, 100% { box-shadow: 0 4px 12px rgba(92,74,246,0.3); }
+  50% { box-shadow: 0 6px 20px rgba(92,74,246,0.6); }
+}
+
+.ai-chat-window {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  width: 420px;
+  height: 600px;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+}
+.ai-chat-window.open {
+  display: flex;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ai-chat-header {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ai-chat-header h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+}
+.ai-chat-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 4px;
+}
+.ai-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ai-message {
+  display: flex;
+  gap: 8px;
+  animation: fadeInMsg 0.3s ease;
+}
+.ai-message.user {
+  justify-content: flex-end;
+}
+@keyframes fadeInMsg {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ai-message.user .message-bubble {
+  background: var(--accent);
+  color: white;
+}
+.ai-message.ai .message-bubble {
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+.message-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.typing-bubble {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: fit-content;
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: typing 1.4s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+  0%, 60%, 100% { opacity: 0.4; }
+  30% { opacity: 1; }
+}
+
+.ai-chat-input-area {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  background: var(--white);
+}
+.ai-chat-input-area input {
+  flex: 1;
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  outline: none;
+}
+.ai-chat-input-area input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(92,74,246,0.1);
+}
+.ai-chat-input-area button {
+  padding: 8px 12px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.ai-chat-input-area button:hover {
+  background: #4936e8;
+}
+.ai-chat-input-area button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .content { padding: 12px; }
+  .ai-chat-window { width: 340px; right: 12px; bottom: 80px; height: 500px; }
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo"><div class="logo-icon">A</div>Attendify</div>
+  <div class="nav-section">
+    <div class="nav-label">Main</div>
+    <div class="nav-item active" onclick="window.switchView('dashboard')"><span class="nav-icon">📊</span>Dashboard</div>
+    <div class="nav-item" onclick="window.switchView('events')"><span class="nav-icon">📅</span>My Events</div>
+    <div class="nav-item" onclick="window.switchView('create')"><span class="nav-icon">➕</span>Create Event</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Management</div>
+    <div class="nav-item" onclick="window.switchView('scan')"><span class="nav-icon">📱</span>Scan Attendance</div>
+    <div class="nav-item" onclick="window.switchView('attendees')"><span class="nav-icon">👥</span>Attendees</div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="user-chip" id="profileBtn">
+      <div class="user-av" id="userAvatar">AD</div>
+      <div class="user-info">
+        <div class="user-name" id="userName">Admin User</div>
+        <div class="user-email" id="userEmail">admin@attendify.com</div>
+        <div class="user-role">Organizer</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div class="page-title" id="pageTitle">Dashboard</div>
+    <div class="topbar-right">
+      <span class="badge-dot"></span>
+      <span class="datetime-chip" id="clockChip">--:--</span>
+      <button class="btn btn-primary btn-sm" onclick="window.switchView('create')">New Event</button>
+    </div>
+  </header>
+  <div class="content">
+    <div id="view-dashboard" class="view active">
+      <div class="stat-grid" id="statsGrid"></div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Recent Events</div><div id="recentEvents"></div></div>
+        <div class="card"><div class="card-title">Quick Stats</div><div id="quickStats"></div></div>
+      </div>
+      <div class="card"><div class="card-title">All Events</div><div id="allEventsList"></div></div>
+    </div>
+
+    <div id="view-events" class="view">
+      <div class="card"><div class="card-title">My Events</div><div id="myEventsGrid" class="event-grid"></div></div>
+    </div>
+
+    <div id="view-create" class="view">
+      <div class="card">
+        <div class="card-title">Create New Event</div>
+        <div class="form-group"><label class="form-label">Event Title *</label><input type="text" id="eventTitle" placeholder="e.g. Annual Tech Conference 2025"></div>
+        <div class="form-group"><label class="form-label">Description</label><textarea id="eventDesc" rows="2" placeholder="Event description..."></textarea></div>
+        <div class="row-2">
+          <div class="form-group"><label class="form-label">Date *</label><input type="date" id="eventDate"></div>
+          <div class="form-group"><label class="form-label">Time *</label><input type="time" id="eventTime"></div>
+        </div>
+        <div class="row-2">
+          <div class="form-group"><label class="form-label">End Time</label><input type="time" id="eventEndTime"></div>
+          <div class="form-group"><label class="form-label">Location</label><input type="text" id="eventLocation" placeholder="Venue / Room"></div>
+        </div>
+        <div class="row-2">
+          <div class="form-group"><label class="form-label">Event Type</label>
+            <select id="eventType"><option>Conference</option><option>Workshop</option><option>Seminar</option><option>Training</option><option>Meeting</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Capacity</label><input type="number" id="eventCapacity" placeholder="0 = unlimited" value="0"></div>
+        </div>
+        <div class="btn-group"><button class="btn btn-primary" id="createEventBtn">Create Event</button><button class="btn btn-outline" onclick="window.clearEventForm()">Clear</button></div>
+      </div>
+    </div>
+
+    <div id="view-scan" class="view">
+      <div class="card">
+        <div class="card-title">Scan Attendance</div>
+        <div class="form-group"><label class="form-label">Select Event</label><select id="scanEventSelect" onchange="window.loadScanView()"><option value="">-- Choose Event --</option></select></div>
+        <div id="scanQRPanel" style="display:none; text-align:center; margin-top:12px"></div>
+        <div id="scanStats" style="margin-top:12px"></div>
+        <div id="scanTable"></div>
+      </div>
+    </div>
+
+    <div id="view-attendees" class="view">
+      <div class="card">
+        <div class="card-title">Manage Attendees</div>
+        <div class="form-group"><label class="form-label">Select Event</label><select id="attendeesEventSelect" onchange="window.loadAttendees()"><option value="">-- Choose Event --</option></select></div>
+        <div id="attendeesList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI Chat Box -->
+<button class="ai-chat-btn" id="aiChatBtn" onclick="window.toggleAIChat()" title="Chat with AI">🤖</button>
+<div class="ai-chat-window" id="aiChatWindow">
+  <div class="ai-chat-header">
+    <h4>🤖 Smart AI Assistant</h4>
+    <button class="ai-chat-close" onclick="window.toggleAIChat()">✕</button>
+  </div>
+  <div class="ai-chat-messages" id="aiChatMessages"></div>
+  <div class="ai-chat-input-area">
+    <input type="text" id="aiChatInput" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter') window.sendAIMessage()">
+    <button id="aiSendBtn" onclick="window.sendAIMessage()">Send</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalBg" onclick="window.closeModal(event)"><div class="modal"><div class="modal-head"><h3 id="modalTitle"></h3><button class="close-btn" onclick="window.closeModalForce()">✕</button></div><div class="modal-body" id="modalBody"></div></div></div>
+
+<script>
+(function() {
+  // Supabase configuration
+  const supabaseUrl = 'https://jutdgdrmzuktudxgixqq.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1dGRnZHJtenVrdHVkeGdpeHFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MDk2OTcsImV4cCI6MjA5MTQ4NTY5N30.VLS2G0sAnmp40mbjnr70Pv_v5-9eHSOBSHfl2AtQhYM';
+  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+  let allEvents = [];
+  let allAttendees = [];
+  let currentUser = null;
+  let chatHistory = [];
+
+  // DeepSeek API configuration
+  const DEEPSEEK_API_KEY = 'sk-4d96842333cc48f6ba43d7fd7f9b509e';
+  const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.className = 'notification';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2000);
+  }
+
+  function formatDate(d) { 
+    if(!d) return '--'; 
+    try {
+      return new Date(d).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+    } catch(e) { return '--'; }
+  }
+
+  function formatDateTime(d) { 
+    if(!d) return '--'; 
+    try {
+      return new Date(d).toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', hour12: true});
+    } catch(e) { return '--'; }
+  }
+
+  function getEventStatus(event) {
+    const now = new Date();
+    const start = new Date(event.date + 'T' + event.time);
+    if(now < start) return 'upcoming';
+    const end = event.end_time ? new Date(event.date + 'T' + event.end_time) : new Date(start.getTime() + 2*3600000);
+    if(now >= start && now <= end) return 'active';
+    return 'ended';
+  }
+
+  function escapeHtml(str) {
+    if(!str) return '';
+    return str.replace(/[&<>"']/g, function(m) {
+      const chars = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+      return chars[m];
+    });
+  }
+
+  async function loadData() {
+    try {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) {
+        const { data: anon } = await supabaseClient.auth.signInAnonymously();
+        if (anon?.user) currentUser = anon.user;
+      } else {
+        currentUser = user;
+      }
+      
+      if (currentUser) {
+        document.getElementById('userName').textContent = currentUser.email?.split('@')[0] || 'Organizer';
+        document.getElementById('userEmail').textContent = currentUser.email || 'user@attendify.com';
+        document.getElementById('userAvatar').textContent = (currentUser.email?.charAt(0) || 'A').toUpperCase();
+      }
+      
+      const { data: events, error: eventsError } = await supabaseClient.from('events').select('*').order('created_at', { ascending: false });
+      if (!eventsError && events && events.length > 0) {
+        allEvents = events;
+      } else {
+        const storedEvents = localStorage.getItem('attendify_events');
+        allEvents = storedEvents ? JSON.parse(storedEvents) : [];
+      }
+      
+      const { data: attendees, error: attendeesError } = await supabaseClient.from('attendees').select('*');
+      if (!attendeesError && attendees && attendees.length > 0) {
+        allAttendees = attendees;
+      } else {
+        const storedAttendees = localStorage.getItem('attendify_attendees');
+        allAttendees = storedAttendees ? JSON.parse(storedAttendees) : [];
+      }
+      
+      if (allEvents.length === 0) {
+        const demoEvents = [
+          { id: '1', title: 'Tech Conference 2025', description: 'Annual technology conference', date: '2025-06-15', time: '09:00', end_time: '17:00', location: 'Convention Center', type: 'Conference', capacity: 200, created_at: new Date().toISOString() },
+          { id: '2', title: 'Leadership Workshop', description: 'Leadership skills training', date: '2025-06-20', time: '10:00', end_time: '15:00', location: 'Training Room', type: 'Workshop', capacity: 50, created_at: new Date().toISOString() }
+        ];
+        allEvents = demoEvents;
+        for (const ev of demoEvents) {
+          await supabaseClient.from('events').upsert(ev).catch(e => console.log('Save failed:', e));
+        }
+        localStorage.setItem('attendify_events', JSON.stringify(allEvents));
+      }
+      
+      if (allAttendees.length === 0 && allEvents.length > 0) {
+        const demoAttendees = [
+          { id: 'a1', event_id: '1', name: 'John Santos', email: 'john@example.com', status: 'approved', checked_in: true, time_in: new Date().toISOString(), registered_at: new Date().toISOString() },
+          { id: 'a2', event_id: '1', name: 'Maria Cruz', email: 'maria@example.com', status: 'approved', checked_in: false, registered_at: new Date().toISOString() },
+          { id: 'a3', event_id: '2', name: 'Carlos Reyes', email: 'carlos@example.com', status: 'approved', checked_in: true, time_in: new Date().toISOString(), registered_at: new Date().toISOString() }
+        ];
+        allAttendees = demoAttendees;
+        for (const att of demoAttendees) {
+          await supabaseClient.from('attendees').upsert(att).catch(e => console.log('Save failed:', e));
+        }
+        localStorage.setItem('attendify_attendees', JSON.stringify(allAttendees));
+      }
+      
+      renderDashboard();
+      populateSelects();
+    } catch (error) {
+      console.error('Error loading data:', error);
+      const storedEvents = localStorage.getItem('attendify_events');
+      const storedAttendees = localStorage.getItem('attendify_attendees');
+      allEvents = storedEvents ? JSON.parse(storedEvents) : [];
+      allAttendees = storedAttendees ? JSON.parse(storedAttendees) : [];
+      renderDashboard();
+      populateSelects();
+    }
+  }
+
+  async function saveEventToSupabase(event) {
+    try {
+      await supabaseClient.from('events').upsert(event);
+    } catch(e) { console.error('Save error:', e); }
+  }
+
+  async function saveAttendeeToSupabase(attendee) {
+    try {
+      await supabaseClient.from('attendees').upsert(attendee);
+    } catch(e) { console.error('Save error:', e); }
+  }
+
+  function renderDashboard() {
+    const myEvents = allEvents;
+    const activeEvents = myEvents.filter(e => getEventStatus(e) === 'active').length;
+    const totalAttendees = allAttendees.length;
+    const totalCheckins = allAttendees.filter(a => a.checked_in).length;
+    
+    document.getElementById('statsGrid').innerHTML = `
+      <div class="stat-card lime"><div class="stat-num">${myEvents.length}</div><div class="stat-label">My Events</div><div class="stat-sub">Total created</div></div>
+      <div class="stat-card cyan"><div class="stat-num">${activeEvents}</div><div class="stat-label">Active Now</div><div class="stat-sub">Ongoing</div></div>
+      <div class="stat-card amber"><div class="stat-num">${totalAttendees}</div><div class="stat-label">Total Attendees</div><div class="stat-sub">Registered</div></div>
+      <div class="stat-card rose"><div class="stat-num">${totalCheckins}</div><div class="stat-label">Check-ins</div><div class="stat-sub">Present</div></div>
+    `;
+    
+    const recent = myEvents.slice(0, 3);
+    document.getElementById('recentEvents').innerHTML = recent.length ? recent.map(e => `
+      <div class="event-card" style="margin-bottom:8px; cursor:pointer" onclick="window.showEventDetails('${e.id}')">
+        <div class="event-card-accent"></div>
+        <div class="event-title">${escapeHtml(e.title)}</div>
+        <div class="event-meta"><span>📅 ${formatDate(e.date)}</span><span>🕐 ${e.time}</span></div>
+        <span class="type-chip">${escapeHtml(e.type)}</span>
+      </div>
+    `).join('') : '<div class="empty">No events yet</div>';
+    
+    const eventTypeCount = {};
+    myEvents.forEach(e => { eventTypeCount[e.type] = (eventTypeCount[e.type] || 0) + 1; });
+    const eventTypeHtml = Object.entries(eventTypeCount).map(([k, v]) => `<div style="margin-top:4px"><span class="type-chip">${escapeHtml(k)}</span> x ${v}</div>`).join('') || '--';
+    
+    document.getElementById('quickStats').innerHTML = `
+      <div style="margin-bottom:12px"><strong>Registration Rate</strong>
+        <div class="progress-track" style="margin-top:6px"><div class="progress-fill" style="width:${totalAttendees > 0 ? Math.min(100, (totalCheckins/totalAttendees)*100) : 0}%;"></div></div>
+        <div style="margin-top:4px; font-size:0.7rem">${totalCheckins} / ${totalAttendees} checked in</div>
+      </div>
+      <div><strong>Event Types</strong>${eventTypeHtml}</div>
+    `;
+    
+    document.getElementById('allEventsList').innerHTML = myEvents.length ? `
+      <div class="event-grid">${myEvents.map(e => `
+        <div class="event-card" onclick="window.showEventDetails('${e.id}')">
+          <div class="event-card-accent"></div>
+          <div class="event-title">${escapeHtml(e.title)}</div>
+          <div class="event-meta"><span>📅 ${formatDate(e.date)}</span><span>📍 ${escapeHtml(e.location || 'TBA')}</span></div>
+          <div class="event-meta"><span class="type-chip">${escapeHtml(e.type)}</span> <span class="badge ${getEventStatus(e) === 'active' ? 'badge-active' : getEventStatus(e) === 'upcoming' ? 'badge-upcoming' : 'badge-ended'}">${getEventStatus(e).toUpperCase()}</span></div>
+        </div>
+      `).join('')}</div>
+    ` : '<div class="empty">No events created yet</div>';
+    
+    document.getElementById('myEventsGrid').innerHTML = myEvents.length ? `
+      <div class="event-grid">${myEvents.map(e => `
+        <div class="event-card" onclick="window.showEventDetails('${e.id}')">
+          <div class="event-card-accent"></div>
+          <div class="event-title">${escapeHtml(e.title)}</div>
+          <div class="event-meta"><span>📅 ${formatDate(e.date)}</span><span>🕐 ${e.time}</span></div>
+          <div class="event-meta"><span class="type-chip">${escapeHtml(e.type)}</span> <span class="badge ${getEventStatus(e) === 'active' ? 'badge-active' : getEventStatus(e) === 'upcoming' ? 'badge-upcoming' : 'badge-ended'}">${getEventStatus(e).toUpperCase()}</span></div>
+        </div>
+      `).join('')}</div>
+    ` : '<div class="empty">No events yet</div>';
+  }
+
+  function populateSelects() {
+    const opts = allEvents.map(e => `<option value="${e.id}">${escapeHtml(e.title)}</option>`).join('');
+    document.getElementById('scanEventSelect').innerHTML = '<option value="">-- Choose Event --</option>' + opts;
+    document.getElementById('attendeesEventSelect').innerHTML = '<option value="">-- Choose Event --</option>' + opts;
+  }
+
+  window.createEvent = async function() {
+    const title = document.getElementById('eventTitle').value.trim();
+    const date = document.getElementById('eventDate').value;
+    const time = document.getElementById('eventTime').value;
+    
+    if(!title) { showToast('Please enter event title'); return; }
+    if(!date) { showToast('Please select event date'); return; }
+    if(!time) { showToast('Please select event time'); return; }
+    
+    const newEvent = {
+      id: Date.now().toString(),
+      title: title,
+      description: document.getElementById('eventDesc').value,
+      date: date,
+      time: time,
+      end_time: document.getElementById('eventEndTime').value,
+      location: document.getElementById('eventLocation').value,
+      type: document.getElementById('eventType').value,
+      capacity: parseInt(document.getElementById('eventCapacity').value) || 0,
+      created_at: new Date().toISOString()
+    };
+    
+    allEvents.unshift(newEvent);
+    localStorage.setItem('attendify_events', JSON.stringify(allEvents));
+    await saveEventToSupabase(newEvent);
+    
+    showToast('Event created: ' + title);
+    window.clearEventForm();
+    renderDashboard();
+    populateSelects();
+    window.switchView('dashboard');
+  };
+
+  window.clearEventForm = function() {
+    document.getElementById('eventTitle').value = '';
+    document.getElementById('eventDesc').value = '';
+    document.getElementById('eventDate').value = '';
+    document.getElementById('eventTime').value = '';
+    document.getElementById('eventEndTime').value = '';
+    document.getElementById('eventLocation').value = '';
+    document.getElementById('eventCapacity').value = '0';
+  };
+
+  window.showEventDetails = function(id) {
+    const event = allEvents.find(e => e.id === id);
+    if(!event) return;
+    const attendees = allAttendees.filter(a => a.event_id === id);
+    document.getElementById('modalTitle').innerHTML = escapeHtml(event.title);
+    document.getElementById('modalBody').innerHTML = `
+      <div><strong>Date:</strong> ${formatDate(event.date)} at ${event.time}</div>
+      <div><strong>Location:</strong> ${escapeHtml(event.location || 'TBA')}</div>
+      <div><strong>Type:</strong> ${escapeHtml(event.type)}</div>
+      <div><strong>Capacity:</strong> ${event.capacity || 'Unlimited'}</div>
+      <div><strong>Attendees:</strong> ${attendees.length} registered</div>
+      <div><strong>Check-ins:</strong> ${attendees.filter(a => a.checked_in).length}</div>
+      <div style="margin-top:12px"><strong>Description:</strong><br>${escapeHtml(event.description) || '--'}</div>
+      <div class="btn-group" style="margin-top:16px">
+        <button class="btn btn-primary btn-sm" onclick="window.switchView('scan'); document.getElementById('scanEventSelect').value='${id}'; window.loadScanView(); window.closeModalForce()">Scan Attendance</button>
+        <button class="btn btn-danger btn-sm" onclick="window.deleteEvent('${id}')">Delete Event</button>
+      </div>
+    `;
+    document.getElementById('modalBg').classList.add('open');
+  };
+
+  window.deleteEvent = async function(id) {
+    if(confirm('Delete this event and all its attendance records?')) {
+      allEvents = allEvents.filter(e => e.id !== id);
+      allAttendees = allAttendees.filter(a => a.event_id !== id);
+      localStorage.setItem('attendify_events', JSON.stringify(allEvents));
+      localStorage.setItem('attendify_attendees', JSON.stringify(allAttendees));
+      await supabaseClient.from('events').delete().eq('id', id).catch(e => console.log('Delete failed:', e));
+      await supabaseClient.from('attendees').delete().eq('event_id', id).catch(e => console.log('Delete failed:', e));
+      renderDashboard();
+      populateSelects();
+      window.closeModalForce();
+      showToast('Event deleted');
+    }
+  };
+
+  window.loadScanView = function() {
+    const eventId = document.getElementById('scanEventSelect').value;
+    if(!eventId) { 
+      document.getElementById('scanQRPanel').innerHTML = '<div class="empty">Select an event</div>';
+      document.getElementById('scanQRPanel').style.display = 'block';
+      document.getElementById('scanStats').innerHTML = '';
+      document.getElementById('scanTable').innerHTML = '';
+      return; 
+    }
+    const event = allEvents.find(e => e.id === eventId);
+    if(!event) return;
+    
+    const attendees = allAttendees.filter(a => a.event_id === eventId);
+    const present = attendees.filter(a => a.checked_in).length;
+    const total = attendees.length;
+    
+    document.getElementById('scanQRPanel').style.display = 'block';
+    document.getElementById('scanQRPanel').innerHTML = `
+      <div style="background:var(--ink2); border-radius:12px; padding:16px; color:white; text-align:center">
+        <div style="font-weight:700">${escapeHtml(event.title)}</div>
+        <div id="qrContainer" style="background:white; padding:12px; border-radius:8px; display:inline-block; margin:12px 0"></div>
+        <div class="btn-group" style="justify-content:center"><button class="btn btn-success btn-sm" onclick="window.simulateCheckin('${eventId}')">Simulate Check-in</button></div>
+      </div>
+    `;
+    const qrContainer = document.getElementById('qrContainer');
+    if(qrContainer && typeof QRCode !== 'undefined') {
+      qrContainer.innerHTML = '';
+      try {
+        new QRCode(qrContainer, { text: `EVENT:${eventId}:${event.title}`, width: 140, height: 140 });
+      } catch(e) {
+        qrContainer.innerHTML = '<div style="width:140px;height:140px;display:flex;align-items:center;justify-content:center">QR unavailable</div>';
+      }
+    }
+    
+    document.getElementById('scanStats').innerHTML = `
+      <div class="three-col">
+        <div class="stat-card"><div class="stat-num" style="font-size:1.2rem">${present}</div><div class="stat-label">Present</div></div>
+        <div class="stat-card rose"><div class="stat-num" style="font-size:1.2rem">${total-present}</div><div class="stat-label">Absent</div></div>
+        <div class="stat-card amber"><div class="stat-num" style="font-size:1.2rem">${total ? Math.round(present/total*100) : 0}%</div><div class="stat-label">Rate</div></div>
+      </div>
+    `;
+    
+    document.getElementById('scanTable').innerHTML = `
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Time In</th><th>Status</th></tr></thead><tbody>
+      ${attendees.map(a => `<tr><td><div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-right:8px;color:white;font-size:0.7rem;flex-shrink:0">${(a.name || '?')[0].toUpperCase()}</div>${escapeHtml(a.name)}</td><td>${escapeHtml(a.email)}</td><td>${a.time_in ? formatDateTime(a.time_in) : '--'}</td><td><span class="badge ${a.checked_in ? 'badge-active' : 'badge-ended'}">${a.checked_in ? 'Present' : 'Absent'}</span></td></tr>`).join('') || '<tr><td colspan="4" class="empty">No attendees yet</td></tr>'}
+      </tbody></table></div>
+    `;
+  };
+
+  window.simulateCheckin = async function(eventId) {
+    const demoNames = ['Alex Santos', 'Maria Cruz', 'John Reyes', 'Lisa Tan', 'Carlos Gomez'];
+    const demoName = demoNames[Math.floor(Math.random()*demoNames.length)];
+    const newAttendee = {
+      id: Date.now().toString() + Math.random().toString(36).substring(7),
+      event_id: eventId,
+      name: demoName,
+      email: demoName.toLowerCase().replace(' ', '.') + '@demo.com',
+      status: 'approved',
+      checked_in: true,
+      time_in: new Date().toISOString(),
+      registered_at: new Date().toISOString()
+    };
+    allAttendees.push(newAttendee);
+    localStorage.setItem('attendify_attendees', JSON.stringify(allAttendees));
+    await saveAttendeeToSupabase(newAttendee);
+    showToast(demoName + ' checked in');
+    window.loadScanView();
+    window.loadAttendees();
+    renderDashboard();
+  };
+
+  window.loadAttendees = function() {
+    const eventId = document.getElementById('attendeesEventSelect').value;
+    if(!eventId) { document.getElementById('attendeesList').innerHTML = '<div class="empty">Select an event</div>'; return; }
+    const attendees = allAttendees.filter(a => a.event_id === eventId);
+    document.getElementById('attendeesList').innerHTML = `
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Registered</th><th>Status</th><th>Check-in</th></tr></thead><tbody>
+      ${attendees.map(a => `<tr><td><div style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-right:8px;color:white;font-size:0.7rem;flex-shrink:0">${(a.name || '?')[0].toUpperCase()}</div>${escapeHtml(a.name)}</td><td>${escapeHtml(a.email)}</td><td>${formatDate(a.registered_at)}</td><td><span class="badge badge-active">${escapeHtml(a.status)}</span></td><td><span class="badge ${a.checked_in ? 'badge-active' : 'badge-ended'}">${a.checked_in ? 'In' : 'Out'}</span></td></tr>`).join('') || '<tr><td colspan="5" class="empty">No attendees registered</td></tr>'}
+      </tbody></table></div>
+      <button class="btn btn-success btn-sm" style="margin-top:12px" onclick="window.simulateCheckin('${eventId}')">Add Demo Attendee</button>
+    `;
+  };
+
+  window.switchView = function(view) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const targetView = document.getElementById(`view-${view}`);
+    if(targetView) targetView.classList.add('active');
+    
+    const titles = { dashboard:'Dashboard', events:'My Events', create:'Create Event', scan:'Scan Attendance', attendees:'Attendees' };
+    document.getElementById('pageTitle').innerHTML = titles[view] || 'Dashboard';
+    
+    if(view === 'events') renderDashboard();
+    if(view === 'create') window.clearEventForm();
+    if(view === 'scan') { populateSelects(); window.loadScanView(); }
+    if(view === 'attendees') { populateSelects(); window.loadAttendees(); }
+  };
+
+  window.toggleAIChat = function() {
+    const chatWindow = document.getElementById('aiChatWindow');
+    const chatBtn = document.getElementById('aiChatBtn');
+    chatWindow.classList.toggle('open');
+    chatBtn.classList.toggle('active');
+    if(chatWindow.classList.contains('open')) {
+      document.getElementById('aiChatInput').focus();
+      if(document.getElementById('aiChatMessages').children.length === 0) {
+        addAIMessage('👋 Hello! I\'m your Attendify AI Assistant. I can help you with:\n\n• Event creation & management\n• Attendance analytics & reports\n• Best practices for QR codes\n• Attendee tracking tips\n• System features & navigation\n\nWhat can I help you with today?');
+      }
+    }
+  };
+
+  function addAIMessage(text, isUser = false) {
+    const messagesDiv = document.getElementById('aiChatMessages');
+    const messageEl = document.createElement('div');
+    messageEl.className = `ai-message ${isUser ? 'user' : 'ai'}`;
+    
+    const bubbleEl = document.createElement('div');
+    bubbleEl.className = 'message-bubble';
+    bubbleEl.innerHTML = escapeHtml(text).replace(/\n/g, '<br>');
+    
+    messageEl.appendChild(bubbleEl);
+    messagesDiv.appendChild(messageEl);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function addTypingIndicator() {
+    const messagesDiv = document.getElementById('aiChatMessages');
+    const messageEl = document.createElement('div');
+    messageEl.className = 'ai-message ai';
+    messageEl.id = 'typing-indicator';
+    
+    const typingEl = document.createElement('div');
+    typingEl.className = 'typing-bubble';
+    typingEl.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    
+    messageEl.appendChild(typingEl);
+    messagesDiv.appendChild(messageEl);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    const typing = document.getElementById('typing-indicator');
+    if(typing) typing.remove();
+  }
+
+  window.sendAIMessage = async function() {
+    const input = document.getElementById('aiChatInput');
+    const message = input.value.trim();
+    if(!message) return;
+    
+    // Add user message
+    addAIMessage(message, true);
+    input.value = '';
+    
+    // Add typing indicator
+    addTypingIndicator();
+    
+    // Build context
+    const eventData = allEvents.map(e => ({
+      title: e.title,
+      type: e.type,
+      date: e.date,
+      attendees: allAttendees.filter(a => a.event_id === e.id).length,
+      checkins: allAttendees.filter(a => a.event_id === e.id && a.checked_in).length
+    }));
+    
+    // Add to history
+    chatHistory.push({ role: 'user', content: message });
+    if(chatHistory.length > 10) chatHistory = chatHistory.slice(-10);
+    
+    const systemPrompt = `You are Attendify's smart AI assistant. You help users manage events and attendance. 
+Current data: ${JSON.stringify(eventData)}
+Be helpful, concise, and friendly. Provide specific suggestions based on the user's data.`;
+    
+    try {
+      const response = await fetch(DEEPSEEK_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            ...chatHistory
+          ],
+          temperature: 0.7,
+          max_tokens: 500,
+          top_p: 0.95
+        })
+      });
+      
+      if(!response.ok) throw new Error('API Error');
+      
+      const data = await response.json();
+      const aiResponse = data.choices?.[0]?.message?.content || 'Sorry, I couldn\'t process that. Try asking again!';
+      
+      chatHistory.push({ role: 'assistant', content: aiResponse });
+      if(chatHistory.length > 10) chatHistory = chatHistory.slice(-10);
+      
+      removeTypingIndicator();
+      addAIMessage(aiResponse);
+    } catch(error) {
+      removeTypingIndicator();
+      addAIMessage(`📊 Based on your data: ${allEvents.length} events, ${allAttendees.length} total attendees, ${allAttendees.filter(a => a.checked_in).length} check-ins. Try asking a specific question!`);
+    }
+  };
+
+  function updateClock() {
+    const now = new Date();
+    try {
+      document.getElementById('clockChip').textContent = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: true});
+    } catch(e) {
+      const hours = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clockChip').textContent = hours + ':' + mins;
+    }
+  }
+
+  window.closeModal = function(e) { if(e.target === document.getElementById('modalBg')) window.closeModalForce(); };
+  window.closeModalForce = function() { document.getElementById('modalBg').classList.remove('open'); };
+
+  // Initialize
+  loadData();
+  setInterval(updateClock, 1000);
+  updateClock();
+  
+  const createBtn = document.getElementById('createEventBtn');
+  if(createBtn) {
+    createBtn.addEventListener('click', window.createEvent);
+  }
+})();
+</script>
+</body>
+</html>
