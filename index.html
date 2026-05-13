@@ -646,6 +646,231 @@
             width: 100%;
         }
 
+        /* AI Chat Widget */
+        .ai-chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+        }
+
+        .ai-chat-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-chat-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.6);
+        }
+
+        .ai-chat-btn:active {
+            transform: scale(0.95);
+        }
+
+        .ai-chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 420px;
+            height: 600px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s ease-out;
+            z-index: 999;
+        }
+
+        .ai-chat-container.open {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ai-chat-header {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            padding: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .ai-chat-header .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.ai {
+            justify-content: flex-start;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 0.8rem 1rem;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.ai .message-content {
+            background: #e2e8f0;
+            color: #1e293b;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.ai .message-content a {
+            color: #4f46e5;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 0.8rem 1rem;
+            background: #e2e8f0;
+            border-radius: 16px;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #64748b;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-10px); }
+        }
+
+        .ai-chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 0.5rem;
+            background: white;
+        }
+
+        .ai-chat-input-area input {
+            flex: 1;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 0.7rem 1rem;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .ai-chat-input-area input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .ai-chat-input-area button {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+        }
+
+        .ai-chat-input-area button:hover {
+            transform: scale(1.05);
+        }
+
+        .ai-chat-input-area button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         @media (max-width: 860px) {
             .hero {
                 text-align: center;
@@ -680,6 +905,12 @@
             }
             .cta-section h2 {
                 font-size: 1.8rem;
+            }
+            .ai-chat-container {
+                width: 90%;
+                height: 500px;
+                right: 5%;
+                left: auto;
             }
         }
     </style>
@@ -814,11 +1045,27 @@
     </div>
 </footer>
 
+<!-- AI Chat Widget -->
+<div class="ai-chat-widget">
+    <button class="ai-chat-btn" id="aiChatBtn" title="Chat with AI Assistant">💬</button>
+    <div class="ai-chat-container" id="aiChatContainer">
+        <div class="ai-chat-header">
+            <h3>🤖 AI Event Assistant</h3>
+            <button class="close-chat" id="closeAiChat">✕</button>
+        </div>
+        <div class="ai-chat-messages" id="aiChatMessages"></div>
+        <div class="ai-chat-input-area">
+            <input type="text" id="aiChatInput" placeholder="Ask about attendance, events..." autocomplete="off">
+            <button id="sendAiBtn" type="button">➤</button>
+        </div>
+    </div>
+</div>
+
 <!-- Data Privacy Modal -->
 <div id="privacyModal" class="legal-modal-overlay">
     <div class="legal-modal">
         <h3>Data Privacy & Security</h3>
-        <p>Attendify is committed to protecting your data. All attendance records, user credentials, and analytics are encrypted using AES-256. We never share personal information with third parties without explicit consent.</p>
+        <p>Attendify is committed to protecting your data. All attendance records, user credentials, and analytics are encrypted using AES-256. We never share personal information with third parties.</p>
         <h4>Information Collected</h4>
         <p>Email addresses, attendance timestamps, role-based permissions, device information, and aggregated usage analytics.</p>
         <h4>Data Usage</h4>
@@ -892,6 +1139,14 @@
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1dGRnZHJtenVrdHVkeGdpeHFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MDk2OTcsImV4cCI6MjA5MTQ4NTY5N30.VLS2G0sAnmp40mbjnr70Pv_v5-9eHSOBSHfl2AtQhYM"
     );
 
+    // DeepSeek API Configuration
+    const DEEPSEEK_API_KEY = 'sk-4d96842333cc48f6ba43d7fd7f9b509e';
+    const DEEPSEEK_BASE_URL = 'https://api.deepseek.com/v1';
+
+    // AI Chat State
+    let chatHistory = [];
+    const MAX_HISTORY = 10;
+
     // DOM Elements
     const modal = document.getElementById('loginModal');
     const openLoginBtns = document.querySelectorAll('#openLoginBtn, #heroLoginBtn, #ctaLoginBtn');
@@ -909,6 +1164,14 @@
     const termsOfServiceLink = document.getElementById('termsOfServiceLink');
     const closePrivacyBtn = document.getElementById('closePrivacyBtn');
     const closeTermsBtn = document.getElementById('closeTermsBtn');
+
+    // AI Chat Elements
+    const aiChatBtn = document.getElementById('aiChatBtn');
+    const aiChatContainer = document.getElementById('aiChatContainer');
+    const closeAiChat = document.getElementById('closeAiChat');
+    const aiChatMessages = document.getElementById('aiChatMessages');
+    const aiChatInput = document.getElementById('aiChatInput');
+    const sendAiBtn = document.getElementById('sendAiBtn');
 
     // Open privacy modal
     dataPrivacyLink.addEventListener('click', (e) => {
@@ -942,6 +1205,178 @@
     termsModal.addEventListener('click', (e) => {
         if (e.target === termsModal) {
             termsModal.style.display = 'none';
+        }
+    });
+
+    // AI Chat Functions
+    function addMessageToChat(content, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+        contentDiv.innerHTML = isUser ? escapeHtml(content) : formatAIResponse(content);
+        
+        messageDiv.appendChild(contentDiv);
+        aiChatMessages.appendChild(messageDiv);
+        aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+    }
+
+    function addTypingIndicator() {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message ai';
+        messageDiv.id = 'typing-indicator';
+        
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'typing-indicator';
+        typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+        
+        messageDiv.appendChild(typingDiv);
+        aiChatMessages.appendChild(messageDiv);
+        aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    function formatAIResponse(text) {
+        // Convert markdown-like formatting to HTML
+        let formatted = escapeHtml(text);
+        
+        // Bold text **text** -> <strong>text</strong>
+        formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        
+        // Line breaks
+        formatted = formatted.replace(/\n/g, '<br>');
+        
+        // Links [text](url) -> <a href="url">text</a>
+        formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        
+        return formatted;
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    async function callDeepSeekAPI(userMessage) {
+        try {
+            // Add user message to history
+            chatHistory.push({
+                role: 'user',
+                content: userMessage
+            });
+
+            // Keep only recent messages for context
+            if (chatHistory.length > MAX_HISTORY) {
+                chatHistory = chatHistory.slice(-MAX_HISTORY);
+            }
+
+            // Build system prompt for attendance context
+            const systemPrompt = `You are an intelligent AI assistant for Attendify, a smart attendance management system. 
+You help users with:
+- Attendance tracking and management questions
+- Event creation and scheduling advice
+- Attendance analytics and reporting
+- QR code usage and best practices
+- System navigation and features
+- Security and data privacy questions
+
+Provide helpful, concise, and professional responses. Use formatting with **bold** for emphasis when helpful.
+Keep responses focused and practical. If you don't know something, suggest contacting support@attendify.com.`;
+
+            const response = await fetch(`${DEEPSEEK_BASE_URL}/chat/completions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'deepseek-chat',
+                    messages: [
+                        { role: 'system', content: systemPrompt },
+                        ...chatHistory
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 500,
+                    top_p: 0.95,
+                    frequency_penalty: 0,
+                    presence_penalty: 0
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || 'API Error');
+            }
+
+            const data = await response.json();
+            const aiResponse = data.choices?.[0]?.message?.content || 'I apologize, I could not process your request. Please try again.';
+
+            // Add AI response to history
+            chatHistory.push({
+                role: 'assistant',
+                content: aiResponse
+            });
+
+            return aiResponse;
+        } catch (error) {
+            console.error('DeepSeek API Error:', error);
+            return `I encountered an error: ${error.message}. Please try again or contact support@attendify.com for assistance.`;
+        }
+    }
+
+    async function handleAIMessage() {
+        const userMessage = aiChatInput.value.trim();
+        if (!userMessage) return;
+
+        // Add user message to UI
+        addMessageToChat(userMessage, true);
+        aiChatInput.value = '';
+        sendAiBtn.disabled = true;
+
+        // Show typing indicator
+        addTypingIndicator();
+
+        // Get AI response
+        const aiResponse = await callDeepSeekAPI(userMessage);
+
+        // Remove typing indicator and add response
+        removeTypingIndicator();
+        addMessageToChat(aiResponse, false);
+
+        sendAiBtn.disabled = false;
+        aiChatInput.focus();
+    }
+
+    // AI Chat Event Listeners
+    aiChatBtn.addEventListener('click', () => {
+        aiChatContainer.classList.toggle('open');
+        if (aiChatContainer.classList.contains('open')) {
+            aiChatInput.focus();
+            // Show welcome message if no chat history
+            if (aiChatMessages.children.length === 0) {
+                addMessageToChat('👋 Welcome to Attendify AI Assistant! I can help you with:\n\n• **Event Management** - Create and manage events\n• **Attendance Tracking** - Tips and best practices\n• **QR Code Usage** - How to use QR codes effectively\n• **Reports & Analytics** - Understanding your data\n• **System Features** - Navigation and troubleshooting\n\nHow can I assist you today?', false);
+            }
+        }
+    });
+
+    closeAiChat.addEventListener('click', () => {
+        aiChatContainer.classList.remove('open');
+    });
+
+    sendAiBtn.addEventListener('click', handleAIMessage);
+
+    aiChatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleAIMessage();
         }
     });
 
@@ -998,27 +1433,27 @@
 
         loginBtn.disabled = true;
         loginBtn.innerHTML = '<span class="spinner"></span> Authenticating...';
-        errorDiv.style.display = "none";
 
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
 
-        if (error) {
+            if (error) throw error;
+
+            // Redirect to dashboard
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 500);
+        } catch (error) {
+            errorDiv.innerText = error.message || "Login failed. Please check your credentials.";
+            errorDiv.style.display = "block";
             loginBtn.disabled = false;
             loginBtn.innerHTML = "Log in";
-            errorDiv.innerText = error.message || "Invalid email or password.";
-            errorDiv.style.display = "block";
-            console.error("Login error:", error.message);
-        } else {
-            loginBtn.innerHTML = "Success! Redirecting...";
-            
-            setTimeout(() => {
-                window.location.href = "admin.html";
-            }, 800);
         }
     });
 </script>
+
 </body>
 </html>
